@@ -522,16 +522,17 @@ class Process(BaseResource):
     def __repr__(self):
         return "<process '{0}'>".format(self.process)
 
-    def new(self, command, attach=""):
+    def new(self, command, attach="", size="1X"):
         """
         Creates a new Process
         Attach: If attach=True it will return a rendezvous connection point, for streaming stdout/stderr
         Command: The actual command it will run
+        Size: the size of the dyno to use, 1X, 2X, or PX for now
         """
         r = self._h._http_resource(
             method='POST',
             resource=('apps', self.app.name, 'ps',),
-            data={'attach': attach, 'command': command}
+            data={'attach': attach, 'command': command, 'size' : size}
         )
 
         r.raise_for_status()
